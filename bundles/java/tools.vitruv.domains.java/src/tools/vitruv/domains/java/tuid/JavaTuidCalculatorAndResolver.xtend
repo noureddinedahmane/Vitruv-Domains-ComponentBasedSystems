@@ -268,7 +268,18 @@ class JavaTuidCalculatorAndResolver extends HierarchicalTuidCalculatorAndResolve
     }
     
     private def dispatch String calculateIndividualTuid(Statement statement) {
-        return ""
+		val tuid = new StringBuilder
+		tuid.append(STATEMENT).append(SUBDIVIDER)
+		val method = statement.getParentByType(Method)
+		tuid.append(method.name)
+		tuid.append(statement.class.simpleName).append(SUBDIVIDER)
+
+		if(statement instanceof LocalVariableStatement){
+		val localVariable = statement as LocalVariableStatement
+		tuid.append(localVariable.variable.name).append(SUBDIVIDER)
+		}
+
+		return tuid.toString;
     }
     
     private def dispatch String calculateIndividualTuid(Expression expression) {
